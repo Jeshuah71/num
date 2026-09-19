@@ -178,3 +178,25 @@ print( my_dll_2.is_palindrome() )
 
 """
 
+
+# Two sum exercise 
+
+# Array of integers nums and a integer target return indices of the two numbers such that add up to target 
+
+class Solution(object):
+    def two_sums(self, nums, target):
+        
+        # creation of hash table that is going to store num and index 
+        seen = {}
+        
+        # This is to loop through all index in the array 
+        for i, num in enumerate(nums): # Here I am assigning index and value 
+            complement = target - num
+            if complement in seen:
+                return [seen[complement], i]
+        # store in the hash table and with the value and the index 
+        seen[num] = i 
+    
+        
+            
+    
