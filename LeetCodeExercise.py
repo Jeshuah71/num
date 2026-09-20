@@ -197,6 +197,87 @@ class Solution(object):
         # store in the hash table and with the value and the index 
         seen[num] = i 
     
+    def sum_two_list(self, l1, l2):
+        
+        dummy = Node(0)
+        
+        current = dummy
+        
+        carry = 0
+        
+        while l1 or l2 or carry:
+            
+            val1 = l1.val if l1 else 0
+            
+            val2 = l2.val if l2 else 0
+            
+            total = val1 + val2 + carry 
+            
+            carry = total // 10
+            
+            digit = total % 10
+            
+            current.next = Node(digit)
+            
+            current = current.next 
+            
+            if l1:
+                l1 = l1.next 
+                
+            if l2 :
+                l2 = l2.next
+        return dummy.next
+    
+    def length_of_largest_substring(s):
+        
+        # stores characters currently inside our window
+        chars = set()
+        
+        # Left seide of the window 
+        left = 0
+        
+        # Best answer so dar
+        max_length = 0
+        
+        for right in range(len(s)):
+            chars.remove(s[right])
+        
+            while s[right] in chars:
+                chars.remove(s[left])
+                
+                left += 1
+                
+            chars.add(s[right])
+            
+            window_length = right - left + 1
+            
+            max_length = max(max_length, window_length)
+        return max_length
         
             
+    def maxProfit(prices):
+        
+        # Lowest price we have seen so far 
+        min_price = float("inf")
+        
+        # Best profit we have seen so fare
+        max_profit = 0
+        
+        # Go through every stock price 
     
+        for price in prices:
+            
+            # if this price is cheaper update our best buying price 
+            if price < min_price:
+                min_price = price
+            
+            # calculate profit if we sell today
+            profit = price - min_price
+            
+            # keep the best profit 
+            max_profit = max(max_profit, profit)
+        
+        # return the best profit found 
+        return max_profit
+            
+            
