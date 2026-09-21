@@ -280,4 +280,99 @@ class Solution(object):
         # return the best profit found 
         return max_profit
             
-            
+# leetcode exercise LRU
+
+class Node:
+    def __init__(self, key, value):
+        # Store both key and value
+        self.key = key
+        self.value = value
+        
+        # Point for double linked list 
+        self.next = None
+        self.prev = None
+
+class LRUCache:
+    def __init__(self, capacity):
+        # Maximum number of items allowed 
+        self.capacity = capacity
+        
+        #Hash map: 
+        # key -> node
+        
+        self.cache = {}
+        
+        # Dummy Nodes
+        
+        self.left = Node(0,0)
+        self.right = Node(0,0)
+        
+        # Connect dummy Nodes
+        self.left.next = self.right
+        self.right.prev = self.left
+    
+    def remove(self, node):
+        # Get node before and after current node
+        prev_node = node.prev
+        next_node = node.next 
+        
+        # Skip current node
+        prev_node.next = next_node 
+        next_node_prev = prev_node
+    
+    def insert(self, node):
+        # Insert node right before self.right
+        # This makes it the Most Recently Used node
+
+        prev_node = self.right.prev
+
+        prev_node.next = node
+        node.prev = prev_node
+
+        node.next = self.right
+        self.right.prev = node
+
+
+    def get(self, key):
+        # If key does not exist
+        if key not in self.cache:
+            return -1
+
+        # Get node from hash map
+        node = self.cache[key]
+
+        # Move it to MRU position
+        self.remove(node)
+        self.insert(node)
+
+        # Return its value
+        return node.value
+
+
+    def put(self, key, value):
+        # If key already exists,
+        # remove the old node from the linked list
+        if key in self.cache:
+            self.remove(self.cache[key])
+
+        # Create new node
+        node = Node(key, value)
+
+        # Store key -> node
+        self.cache[key] = node
+
+        # Put node in MRU position
+        self.insert(node)
+
+        # If we exceed capacity
+        if len(self.cache) > self.capacity:
+
+            # The node after left is always the LRU
+            lru = self.left.next
+
+            # Remove LRU from linked list
+            self.remove(lru)
+
+            # Remove LRU from hash map
+            del self.cache[lru.key]
+        
