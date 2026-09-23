@@ -282,7 +282,7 @@ class Solution(object):
             
 # leetcode exercise LRU
 
-class Node:
+class LLNode:
     def __init__(self, key, value):
         # Store both key and value
         self.key = key
@@ -304,8 +304,8 @@ class LRUCache:
         
         # Dummy Nodes
         
-        self.left = Node(0,0)
-        self.right = Node(0,0)
+        self.left = LLNode(0,0)
+        self.right = LLNode(0,0)
         
         # Connect dummy Nodes
         self.left.next = self.right
@@ -356,7 +356,7 @@ class LRUCache:
             self.remove(self.cache[key])
 
         # Create new node
-        node = Node(key, value)
+        node = LLNode(key, value)
 
         # Store key -> node
         self.cache[key] = node
@@ -375,4 +375,125 @@ class LRUCache:
 
             # Remove LRU from hash map
             del self.cache[lru.key]
+
+# Leetcode exercise Roman to integer
+
+# The Roman numerals are added VIII = 5 + 1 + 1 + 1 = 8
+
+# If a smaller calue appear before a larger value you substract it
+
+# A python dictionary is perfect 
+
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        # This is a look up table
+        values = {
+            "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000
+        }
         
+        total = 0
+        previous = 0
+        
+        for char in reversed(s):
+            
+            current = values[char]
+            
+            if current < previous:
+                total -= current
+            else:
+                total += current
+            previous = current
+            
+        return total 
+    
+    # The time complexity is O(n) and the space complexity is O(1)
+    
+# Longest Common Prefix 
+
+    def longestCommonPrefix(self, strs):
+        
+        # Loop through each index of the first word
+        for i in range(len(strs[0])):
+            
+            # compare the index with every word 
+            for word in strs:
+                
+                # if the current word is too short, stop 
+                if i >= len(word):
+                    return strs[0][:i]
+                
+                # if the characters are different, stop 
+                if word[i] != strs[0][i]:
+                    return strs[0][:i]
+        # if everything matched, return the whole first word 
+        return strs[0]
+    
+
+# Valid parenthesis 
+    def isValid(self, s):
+        
+        # Stach stores the opening brackets
+        stack = []
+        
+        # Map each closing bracket to its matching opening bracket
+        pairs = {
+            ")": "(",
+            "]": "[",
+            "}": "{"
+        }
+        
+        # Go through every character 
+        for char in s:
+            
+            # if it is an opening bracket, and it to the stack
+            if char in "([{":
+                stack.append(char)
+            
+            else:
+                # if stack is empty, there is nothing to match
+                if not stack:
+                    return False
+                
+                # Check if the top opening bracket matches
+                if stack[-1] != pairs[char]:
+                    return False
+                
+                # They matched, so remove the openin bracket
+                stack.pop()
+    # Valid only if every opening bracket was closed
+        return len(stack) == 0
+    
+# Merge two sorted list 
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution(object):
+    def mergeTwoLists(self, list1, list2):
+        
+        dummy = ListNode(0)
+        
+        current = dummy
+        
+        while list1 and list2:
+            
+            if list1.value <= list2.value:
+                current.next = list1
+                list1 = list1.next
+            
+            else:
+                current.next = list2
+                list2 = list2.next
+            current = current.next
+        if list1:
+            current.next = list1
+        else:
+            current.next = list2
+        return dummy.next
