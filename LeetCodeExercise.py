@@ -497,3 +497,145 @@ class Solution(object):
         else:
             current.next = list2
         return dummy.next
+    
+    def searchInsert(self, nums, target):
+        # left and right boundaries of the search area
+        left = 0
+        right = len(nums) - 1
+        
+        # keep searching while the area is valid
+        while left <= right:
+            
+            # Find the middle insdex
+            mid = (left + right) // 2
+            
+            # if target is found, return its index
+            if nums[mid] == target:
+                return mid
+            
+            # if target is bigger, search the right half
+            elif nums[mid] < target:
+                left = mid + 1
+            
+            # if target is smaller, search the left half
+            else:
+                right = mid - 1 
+        # if target was not found 
+        # left is the correct insertion position 
+        return left
+    
+    # find a substring 
+    
+    def lengthOfLastWord(self, s):
+        
+        # start at the last character
+        i = len(s) - 1
+        
+        # skip spaces at the end
+        while i >= 0 and s[i] == " ":
+            i -= 1
+            
+        # start counting the last word
+        count = 0
+        
+        
+        while i > 0 and s[i] != " ":
+            count += 1
+            i -= 1
+        return count 
+    
+    def plusOne(self, digits):
+        
+        # start at the last digit
+        i = len(digits) - 1
+        
+        # Move from right to left
+        while i >= 0:
+            
+            # if curent digit is less than 9,
+            # just add 1 and we are done
+            if digits[i] < 9:
+                digits[i] += 1
+                return digits
+        
+            # if current digits is 9,
+            # make it 0 and carry to the left
+            digits[i] = 0
+            i -= 1
+            
+        # if we finished the loop 
+        # all digits were 9
+        return [1] + digits
+    
+    def addBinary(self, a,b):
+        
+        # start at the last digit of each string
+        i = len(a)  -1 
+        j = len(b) - 1 
+        
+        # sotres carry from binary addition 
+        carry = 0
+        
+        # Store result digits here
+        result = []
+        
+        # Continuos while there are digits left or a carry
+        while i >= 0 or j >= 0 or carry:
+            
+            # Get current digit from a, or 0 if a is finished 
+            digit_a = int(a[i]) if i >= 0 else 0
+            
+            # get current digit form b, or 0 if b is finished
+            digit_b = int(b[j]) if j >= 0 else 0
+            
+            # Add both digits and the carry
+            total = digit_a + digit_b + carry
+            
+            # Current binary digit 
+            result.append(str(total % 2))
+            
+            # New carry 
+            carry = total // 2
+            
+            # Move both pointers left
+            i -= 1
+            j -= 1 
+        # We built the result backwards
+        result.reverse()
+        
+        # Convert list into a string 
+        return "".join(result)
+    
+
+    def mySqrt(self, x):
+       
+       # Search space for the answer
+        left = 0
+        right = x
+       
+       # best valid answer found so far
+        answer = 0
+       
+       # Binary Search 
+        while left <= right:
+           
+           # middle possible answer
+           mid = (left + right) // 2
+           
+           # Square of the middle number
+           square = mid * mid
+           
+           # Exact square root found 
+           if square == x:
+               return mid 
+           
+           # mid is too small, but still a valid candidate
+           elif square < x:
+               answer = mid
+               left = mid + 1
+               
+            # mid is too large 
+           else: 
+               right = mid - 1 
+               
+        return answer  
