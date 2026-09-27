@@ -639,3 +639,30 @@ class Solution(object):
                right = mid - 1 
                
         return answer  
+    
+    def climbStairs(self, n):
+        
+        # Base case: only one way to climb 1 step 
+        
+        if n == 1:
+            return 1 
+        
+        # ways(1)
+        prev2 = 1 
+        
+        # ways(2)
+        prev1 = 2
+        
+    
+        # Calculate ways from step 2 up to n 
+        for _ in range(3, n + 1):
+            
+            # Current ways = previous two days
+            
+            current = prev1 + prev2
+            
+            # Shift value forward 
+            prev2 = prev1
+            prev1 = current 
+        # prev 1 now stores ways(n) 
+        return prev1   
