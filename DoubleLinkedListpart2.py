@@ -179,6 +179,89 @@ class DoublyLinkedList:
                 current.prev = less
                 less = current
             else:
+                greater.next = current
+                current.prev = greater
+                greater = current
+            current = next_node
+            
+        less.next = dummy2.next
+        
+        if dummy2.next:
+            dummy2.next.prev = less
+        
+        self.head = dummy1.next
+        
+        if self.head:
+            self.head.prev = None
+        
+        if dummy2.next:
+            self.tail = greater
+        else:
+            self.tail = less
+            
+        self.tail.next = None
+    
+    def reverse_between(self, start_index, end_index):
+        
+        # if the list is empty, has one node,
+        # or we are reversing only one position,
+        # there is nothing to do
+        if self.head is None or self.head == self.tail or start_index == end_index:
+            return 
+        
+        # start at the head
+        current = self.head
+        
+        # Move current to the node at the start index
+        for _ in range(start_index):
+            current = current.next 
+            
+        # Save the first node of the section 
+        start_node = current
+        
+        # Save the node BEFORE the section
+        before = start_node.prev
+        
+        # This will eventually become 
+        # the new first node of the reversed section
+        new_section_head = None
+        
+        # Reverse all nodes form start_idex to end_index
+        for _ in range(end_index - start_node + 1):
+            
+            # Save where we originally needed to go next
+            next_node = current.next
+            
+            # Swap next and prev
+            current.next = current.prev
+            current.prev = next_node
+            
+            # Remember the most recently reversed node
+            new_section_head = current
+            
+            # Move through the ORIGINAL list 
+            current = next_node 
+            
+        # current is now the node AFTER the reversed section 
+        after = current 
+        
+        # Connext the left side 
+        if before:
+            before.next = new_section_head
+        
+        else:
+            # Reversal started at index 0
+            self.head = new_section_head
+        
+        new_section_head.prev = before
+        
+        # Connect the right side
+        start_node.next = after
+        
+        if after:
+            after.prev = start_node
+        else:
+            self.tail = start_node
                 
         
         

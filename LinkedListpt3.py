@@ -302,6 +302,41 @@ class Linkedlist:
         
         self.head = dummy.next
         
+    def reverse_between(self, start_index, end_index):
+        # if the list is empty, there is nothing to reserve
+        if self.head is None:
+            return
+        
+        # if start and end are the same
+        # we are reversing only one node
+        if start_index == end_index:
+            return
+        
+        # Create a fake node before the head
+        dummy = Node(0)
+        dummy.next = self.head
+        
+        # prev will move to the node BEFORE start_index
+        prev = dummy
+        
+        # Mode prev to the correct position 
+        for _ in range(start_index):
+            prev = prev.next
+            
+        # current is the first node we want to reverse
+        current = prev.next
+        
+        # Reverse the section 
+        for _ in range(end_index - start_index):
+            temp = current.next 
+            
+            current.next = temp.next 
+            
+            temp.next = prev.next 
+            
+            prev.next = temp
+        # update head in case start index was 0 
+        self.head = dummy.next
         
         
     
