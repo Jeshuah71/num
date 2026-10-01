@@ -203,10 +203,39 @@ class HashTable:
             # Otherwise, remember this character
             seen.add(char)
         return True
-        
     
+    def subarray_sum(nums, target):
         
+        # Dictionary:
+        # prefix_sum --> index where we saw that sum
+        prefix_sums = {0: -1}
+        
+        # Running total
+        current_sum = 0
+        
+        # Go through the array once
+        for i, num in enumerate(nums):
+            
+            # Add current number to running total
+            current_sum += num
+            
+            # Find what previous sum we need
+            needed = current_sum - target
+            
+            # if we have seen that sum before, 
+            # the numbers after that index up to i add to target 
+            if needed in prefix_sums:
+                return [prefix_sums[needed] + 1, i]
+            
+            # Save current running sum and its index 
+            prefix_sums[current_sum] = i 
+        
+        # No matching subarray
+        return [] 
+    
+    
 my_hash_table = HashTable()
 
 my_hash_table.print_table()
+
 
