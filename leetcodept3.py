@@ -259,5 +259,32 @@ class Solution(object):
 #   AND recyclable = 'Y';
 
             
+    def moveZeroes(self, nums):
         
+        # This p ointer tells us where the next non-zero number should be placed
+        insert_position = 0
         
+        # gothrough every element in the array 
+        for i in range(len(nums)):
+            
+            # We only care about non-zero numbers
+            if nums[i] != 0:
+                
+                # Swap the current non-zero number with the position where it should go
+                nums[insert_position], nums[i] = nums[i], nums[insert_position]
+                
+                # Move the insert pointer forward because this position is now filled 
+                insert_position += 1 
+        
+    def validPalindrome(self, s):
+        # Helper function:
+        # Checks whether s[left:right+1] is a palindrome
+        def is_palindrome(left, right):
+            while left < right:
+                if s[left] != s[right]:
+                    return False
+            
+                left += 1 
+                right -= 1
+                
+        # TWO 
