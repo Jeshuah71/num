@@ -169,3 +169,26 @@ class RecursiveBinarySearchTree:
         return results
     
     
+    def __sorted_list_to_bst(self, nums, left, right):
+        # Base case:
+        # if there are no numbers left in this section, there is no node to create
+        if left > right:
+            return None
+        
+        # Find the middle index 
+        mid = Node(left + right) // 2
+        
+        # Create a node using the middle value
+        node = Node(nums[mid])
+        
+        # Build the left subtree using everything before the middle 
+        node.left = self.__sorted_list_to_bst(nums, left, mid - 1)
+        
+        # Build the right subtree using everything after the middle
+        node.right = self.__sorted_list_to_bst(nums, mid + 1, right)
+        
+        return node
+    
+    
+    
+    
